@@ -267,7 +267,8 @@ if st.session_state.current_explanation:
         if st.button("Generate Audio"):
             with st.spinner("Generating Audio..."):
                 st.session_state.current_audio = text_to_speech(
-                    st.session_state.current_explanation
+                    st.session_state.current_explanation,
+                    language
                 )
             st.rerun()
 
