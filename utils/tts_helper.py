@@ -3,11 +3,6 @@ import streamlit as st
 from sarvamai import SarvamAI
 
 
-client = SarvamAI(
-    api_subscription_key=st.secrets["SARVAM_API_KEY"]
-)
-
-
 LANGUAGE_CODES = {
     "English": "en-IN",
     "Hindi": "hi-IN",
@@ -21,6 +16,14 @@ def text_to_speech(text, language="English"):
     Returns the generated MP3 file path.
     """
 
+    api_key = st.secrets.get("SARVAM_API_KEY")
+    if not api_key:
+        raise RuntimeError(
+            "Audio generation is not configured. Add SARVAM_API_KEY to "
+            "the app secrets in Streamlit Cloud."
+        )
+
+    client = SarvamAI(api_subscription_key=api_key)
     target_language = LANGUAGE_CODES.get(language, "en-IN")
 
     # Sarvam supports up to 3500 characters
